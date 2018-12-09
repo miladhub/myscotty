@@ -6,6 +6,26 @@ import Web.Scotty
 import Data.Monoid (mconcat)
 import Control.Monad.Trans (liftIO)
 import Data.Text.Lazy
+import Control.Monad.Reader
+
+type Env = String
+
+type App = ReaderT Env IO
+
+run :: Env -> App a -> IO a
+run e app = runReaderT app e
+
+--foo :: ReaderT String IO String
+foo :: App String
+foo = do
+  l <- bar
+  ll <- ask
+  liftIO $ putStrLn "Computing..."
+  return (ll ++ ", length: " ++ show l)
+
+--bar :: ReaderT String IO Int
+bar :: App Int
+bar = reader Prelude.length
 
 main = scotty 3000 $
   get "/:word" $ do
