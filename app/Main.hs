@@ -27,6 +27,14 @@ foo = do
 bar :: App Int
 bar = reader Prelude.length
 
+baz :: ReaderT String Maybe Int
+baz = ReaderT $ \s -> if (s == "baz") then Just (Prelude.length s) else Nothing
+
+buzz :: ReaderT String Maybe Int
+buzz = do
+  l <- baz
+  return $ l + 2
+
 main = scotty 3000 $
   get "/:word" $ do
     --beam <- param "word"
