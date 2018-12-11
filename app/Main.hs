@@ -18,14 +18,19 @@ run e app = runReaderT app e
 --foo :: ReaderT String IO String
 foo :: App String
 foo = do
-  l <- bar
   ll <- ask
   liftIO $ putStrLn "Computing..."
-  return (ll ++ ", length: " ++ show l)
+  return (ll ++ " got fooed")
 
 --bar :: ReaderT String IO Int
 bar :: App Int
 bar = reader Prelude.length
+
+foobar :: App String
+foobar = do
+  f <- foo
+  b <- bar
+  return (f ++ show b)
 
 baz :: ReaderT String Maybe Int
 baz = ReaderT $ \s -> if (s == "baz") then Just (Prelude.length s) else Nothing
