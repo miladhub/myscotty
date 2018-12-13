@@ -24,7 +24,6 @@ dependencies:
 - scotty
 - mtl
 - text
-- random
 
 library:
   source-dirs: src
