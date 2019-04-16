@@ -24,7 +24,11 @@ foo = do
 
 --bar :: ReaderT String IO Int
 bar :: App Int
-bar = reader Prelude.length
+--bar = reader Prelude.length
+bar = do
+  ll <- ask
+  liftIO $ putStrLn "Computing again..."
+  return $ Prelude.length ll
 
 foobar :: App String
 foobar = do
